@@ -6,7 +6,6 @@ pragma solidity 0.8.17;
 contract GameOfLife {
     bytes1 deadCell = bytes(".")[0];
     bytes1 aliveCell = bytes("#")[0];
-    bytes char = new bytes(1);
     bytes emptyLine;
 
     uint16 width = 20;
