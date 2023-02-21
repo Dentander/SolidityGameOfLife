@@ -94,8 +94,8 @@ contract GameOfLife {
             for (uint16 x = 1; x <= width; ++x) {
                 uint16 count = countNeighbours(int16(x), int16(y));
 
-                if (field[y][x] == aliveCell[0] && (count == 2 || count == 3) ||
-                    field[y][x] == deadCell[0] && count == 3) {
+                if (field[y][x] == aliveCell && (count == 2 || count == 3) ||
+                    field[y][x] == deadCell && count == 3) {
 
                     nextField[y][x] = aliveCell;
                 }
@@ -114,7 +114,7 @@ contract GameOfLife {
         field[x][y] = deadCell;
         return getField();
     }
-    
+
     function setAlive(uint16 x, uint16 y) public returns (string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory) {
         require(x > 0, "Outside the bounds of array");
         require(y > 0, "Outside the bounds of array");
