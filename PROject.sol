@@ -114,6 +114,7 @@ contract GameOfLife {
         field[x][y] = deadCell;
         return getField();
     }
+    
     function setAlive(uint16 x, uint16 y) public returns (string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory) {
         require(x > 0, "Outside the bounds of array");
         require(y > 0, "Outside the bounds of array");
