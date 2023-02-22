@@ -6,6 +6,7 @@ pragma solidity 0.8.17;
 contract GameOfLife {
     bytes1 deadCell = bytes(".")[0];
     bytes1 aliveCell = bytes("#")[0];
+    bytes char = new bytes(1);
     bytes emptyLine;
 
     uint16 width = 20;
@@ -121,6 +122,12 @@ contract GameOfLife {
         require(y <= height, "Outside the bounds of array");
 
         field[x][y] = aliveCell;
+        return getField();
+    }
+
+    function clearField() public returns (string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory) {
+        prepareNextField();
+        field = nextField;
         return getField();
     }
 }
