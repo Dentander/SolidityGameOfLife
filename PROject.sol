@@ -9,8 +9,8 @@ contract GameOfLife {
     bytes char = new bytes(1);
     bytes emptyLine;
 
-    uint16 width = 20;
-    uint16 height = 10;
+    uint256 width = 20;
+    uint256 height = 10;
 
     // Тут глайдер, он двигается вправо вниз
     string[] fieldToConvert = [
@@ -37,7 +37,7 @@ contract GameOfLife {
 
     function initEmptyLine() private {
         string memory line = "";
-        for (uint16 i = 0; i < width + 5; ++i)
+        for (uint256 i = 0; i < width + 2; ++i)
             line = string.concat(line, ".");
 
         emptyLine = bytes(line);
@@ -45,7 +45,7 @@ contract GameOfLife {
 
     function initField() private {
         initEmptyLine();
-        for (uint16 i = 0; i < height + 2; ++i) {
+        for (uint256 i = 0; i < height + 2; ++i) {
             field.push(bytes(fieldToConvert[i]));
             nextField.push(emptyLine);
         }
@@ -67,18 +67,18 @@ contract GameOfLife {
     }
 
     function prepareNextField() private {
-        for (uint16 i = 0; i < height + 2; ++i) {
+        for (uint256 i = 0; i < height + 2; ++i) {
             nextField[i] = emptyLine;
         }
     }
 
-    function countNeighbours(int16 x0, int16 y0) private view returns (uint16) {
-        uint16 count = 0;
-        for (int16 x = -1; x <= 1; ++x) {
-            for (int16 y = -1; y <= 1; ++y) {
+    function countNeighbours(int256 x0, int256 y0) private view returns (uint256) {
+        uint256 count = 0;
+        for (int256 x = -1; x <= 1; ++x) {
+            for (int256 y = -1; y <= 1; ++y) {
                 if (!(x == 0 && y == 0)) {
-                    uint16 ax = uint16(x0 + x);
-                    uint16 ay = uint16(y0 + y);
+                    uint256 ax = uint256(x0 + x);
+                    uint256 ay = uint256(y0 + y);
                     if (field[ay][ax] == aliveCell) {
                         ++count;
                     }
@@ -90,12 +90,12 @@ contract GameOfLife {
 
     function update() public returns (string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory) {
         prepareNextField();
-        for (uint16 y = 1; y <= height; ++y) {
-            for (uint16 x = 1; x <= width; ++x) {
-                uint16 count = countNeighbours(int16(x), int16(y));
-
-                if (field[y][x] == aliveCell && (count == 2 || count == 3) ||
-                    field[y][x] == deadCell && count == 3) {
+        for (uint256 y = 1; y <= height; ++y) {
+            for (uint256 x = 1; x <= width; ++x) {
+                uint256 count = countNeighbours(int256(x), int256(y));
+                
+                if ((field[y][x] == aliveCell && (count == 2 || count == 3)) ||
+                    (field[y][x] == deadCell  &&  count == 3)) {
 
                     nextField[y][x] = aliveCell;
                 }
@@ -105,7 +105,7 @@ contract GameOfLife {
         return getField();
     }
 
-    function setDead(uint16 x, uint16 y) public returns (string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory) {
+    function setDead(uint256 x, uint256 y) public returns (string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory) {
         require(x > 0, "Outside the bounds of array");
         require(y > 0, "Outside the bounds of array");
         require(x <= width, "Outside the bounds of array");
@@ -115,7 +115,7 @@ contract GameOfLife {
         return getField();
     }
 
-    function setAlive(uint16 x, uint16 y) public returns (string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory) {
+    function setAlive(uint256 x, uint256 y) public returns (string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory, string memory) {
         require(x > 0, "Outside the bounds of array");
         require(y > 0, "Outside the bounds of array");
         require(x <= width, "Outside the bounds of array");
